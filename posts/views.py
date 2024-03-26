@@ -1,12 +1,22 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.core.paginator import Paginator
 from .models import Post
 from .forms import PostForm
 
 def list_posts(request):
   posts = Post.objects.all()
 
+  paginator = Paginator(posts, 2)
+
+  page = request.GET.get('page')
+
+  if page == 0 or page is None:
+    page = 1
+
+  page_obj = paginator.get_page(page)
+
   context = {
-    'posts': posts
+    'page_obj': page_obj
   }
 
   return render(request, 'posts/index.html', context)

@@ -47,3 +47,20 @@
 .delete {
   background-color: #F10;
 }
+
+.pagination-container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pagination-container a {
+  cursor: pointer;
+  width: max-content;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 700;
+  background-color: #06F;
+}
