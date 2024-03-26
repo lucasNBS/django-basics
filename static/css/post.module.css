@@ -1,0 +1,23 @@
+.post-container {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+}
+
+.post-title {
+  font-size: 3rem;
+}
+
+.post-description {
+  font-size: 1rem;
+  color: #ababab;
+}
+
+.post-content {
+  margin-top: 1rem;
+  font-size: 1.125rem;
+  color: #333;
+  line-height: 1.5rem;
+}

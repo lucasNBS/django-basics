@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'css/globals.module.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.module.css' %}">
+  {% block head %}
+  {% endblock %}
+  <title>Django Basics</title>
+</head>
+<body>
+  <header class="header-container"></header>
+  <main class="main-container">
+    {% block content %}
+    {% endblock %}
+  </main>
+  <footer class="footer-container"></footer>
+</body>
+</html>

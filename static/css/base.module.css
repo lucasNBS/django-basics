@@ -1,0 +1,25 @@
+body {
+  min-height: 100vh;
+}
+
+.header-container {
+  background-color: #06F;
+  width: 100%;
+  height: 150px;
+}
+
+.main-container {
+  width: 100%;
+  max-width: 1200px;
+  min-height: calc(100vh - 500px);
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.footer-container {
+  background-color: #06F;
+  width: 100%;
+  height: 350px;
+}
