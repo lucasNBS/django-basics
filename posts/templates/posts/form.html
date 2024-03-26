@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/form.module.css' %}">
+{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-container">
+    {% csrf_token %}
+    <div class="form-field">
+      <label for="title" class="form-label">Title</label>
+      {{ form.title }}
+    </div>
+    <div class="form-field">
+      <label for="description" class="form-label">Description</label>
+      {{ form.description }}
+    </div>
+    <div class="form-field">
+      <label for="content" class="form-label">Content</label>
+      {{ form.content }}
+    </div>
+    <button type="submit" class="form-button">Send</button>
+  </form>
+{% endblock %}

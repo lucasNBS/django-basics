@@ -11,7 +11,12 @@
   <title>Django Basics</title>
 </head>
 <body>
-  <header class="header-container"></header>
+  <header class="header-container">
+    <nav class="navbar-container">
+      <a href="/posts" class="navbar-item">Posts</a>
+      <a href="/posts/create" class="navbar-item">Create Post</a>
+    </nav>
+  </header>
   <main class="main-container">
     {% block content %}
     {% endblock %}
