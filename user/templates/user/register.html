@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/form.module.css' %}">
+{% endblock %}
+
+{% block content %}
+  <form method="POST" class="form-container">
+    {% csrf_token %}
+    <div class="form-field">
+      <label for="username" class="form-label">Username</label>
+      {{ form.username }}
+    </div>
+    <div class="form-field">
+      <label for="password1" class="form-label">Password</label>
+      {{ form.password1 }}
+    </div>
+    <div class="form-field">
+      <label for="password2" class="form-label">Confirm Password</label>
+      {{ form.password2 }}
+    </div>
+    <button class="form-button">Register</button>
+    <span class="form-warning">Already has an account? <a href="/login">Login</a></span>
+  </form>
+{% endblock %}

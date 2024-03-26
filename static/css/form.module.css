@@ -17,7 +17,7 @@
   font-size: 1.25rem;
 }
 
-.form-input, .form-textarea {
+.form-input, input[type='password'], .form-textarea {
   padding: 0.5rem 1rem;
   border: 1px solid #DDD;
   border-radius: 4px;
@@ -38,4 +38,15 @@
   border-radius: 4px;
   color: #fff;
   font-weight: 700;
+}
+
+.form-warning {
+  width: 100%;
+  text-align: center;
+  color: #333;
+  font-size: 0.875rem;
+}
+
+.form-warning a {
+  color: #06F;
 }
