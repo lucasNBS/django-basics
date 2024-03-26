@@ -10,5 +10,8 @@
     <h1 class="post-title">{{ post.title }}</h1>
     <p class="post-description">{{ post.description }}</p>
     <p class="post-content">{{ post.content }}</p> 
+    <div class="actions-container">
+      <a href="{% url 'post-edit' post.id %}" class="edit">Edit</a>
+    </div>
   </section>
 {% endblock %}
