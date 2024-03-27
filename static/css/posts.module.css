@@ -1,3 +1,26 @@
+.form-container {
+  margin-top: 2rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.input-container {
+  padding: 0.5rem 1rem;
+  border: 1px solid #DDD;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.form-button {
+  cursor: pointer;
+  background-color: #06F;
+  height: 36px;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  color: #fff;
+  font-weight: 700;
+}
+
 .posts-container {
   width: 100%;
   margin: 2rem 0;

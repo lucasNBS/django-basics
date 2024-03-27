@@ -6,6 +6,11 @@ from .forms import PostForm
 def list_posts(request):
   posts = Post.objects.all()
 
+  search_title = request.GET.get("search-title")
+
+  if search_title is not None:
+    posts = posts.filter(title__icontains=search_title)
+
   paginator = Paginator(posts, 2)
 
   page = request.GET.get('page')
@@ -13,10 +18,14 @@ def list_posts(request):
   if page == 0 or page is None:
     page = 1
 
+  if search_title is None:
+    search_title = ""
+
   page_obj = paginator.get_page(page)
 
   context = {
-    'page_obj': page_obj
+    'page_obj': page_obj,
+    'search_title': search_title,
   }
 
   return render(request, 'posts/index.html', context)

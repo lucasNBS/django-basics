@@ -6,6 +6,16 @@
 {% endblock %}
 
 {% block content %}
+  <form action="{% url 'posts' %}" method="get" class="form-container">
+    <input
+      type="text"
+      name="search-title"
+      class="input-container"
+      placeholder="Title"
+      value="{{ search_title }}"
+    />
+    <button type="submit" class="form-button">Search</button>
+  </form>
   <section class="posts-container">
     {% for post in page_obj %}
       <div class="post-container">
@@ -20,10 +30,18 @@
   </section>
   <div class="pagination-container">
     {% if page_obj.has_previous %}
-      <a href="?page={{ page_obj.previous_page_number }}">Previous</a>
+      <a
+        href="?search-title={{ search_title }}&page={{ page_obj.previous_page_number }}"
+      >
+        Previous
+      </a>
     {% endif %}
     {% if page_obj.has_next %}
-      <a href="?page={{ page_obj.next_page_number }}">Next</a>
+      <a
+        href="?search-title={{ search_title }}&page={{ page_obj.next_page_number }}"
+      >
+        Next
+      </a>
     {% endif %}
   </div>
 {% endblock %}
