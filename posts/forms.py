@@ -10,4 +10,5 @@ class PostForm(forms.ModelForm):
       'title': forms.TextInput(attrs={'class': 'form-input'}),
       'description': forms.TextInput(attrs={'class': 'form-input'}),
       'content': forms.Textarea(attrs={'class': 'form-textarea'}),
+      'image': forms.FileInput(attrs={'class': 'form-input'}),
     }

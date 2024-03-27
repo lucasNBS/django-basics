@@ -10,13 +10,34 @@
   font-size: 3rem;
 }
 
+.post {
+  width: 100%;
+  display: flex;
+  gap: 2rem;
+}
+
+.post-image {
+  height: 500px;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+}
+
 .post-description {
   font-size: 1rem;
   color: #ababab;
 }
 
+.post-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 1rem;
+  flex: 2;
+}
+
 .post-content {
-  margin-top: 1rem;
+  height: -webkit-fill-available;
+  white-space: break-spaces;
   font-size: 1.125rem;
   color: #333;
   line-height: 1.5rem;
