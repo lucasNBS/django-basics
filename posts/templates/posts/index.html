@@ -23,7 +23,9 @@
         <p class="post-description">{{ post.description }}</p>
         <div class="actions-container">
           <a class="button read-more" href="{% url 'post' post.id %}">Read More</a>
-          <a class="button delete" href="{% url 'post-delete' post.id %}">Delete</a>
+          {% if user == post.user %}
+            <a class="button delete" href="{% url 'post-delete' post.id %}">Delete</a>
+          {% endif %}
         </div>
       </div>
     {% endfor %}

@@ -14,7 +14,9 @@
       <div class="post-info">
         <p class="post-content">{{ post.content }}</p> 
         <div class="actions-container">
-          <a href="{% url 'post-edit' post.id %}" class="edit">Edit</a>
+          {% if user == post.user %}
+            <a href="{% url 'post-edit' post.id %}" class="edit">Edit</a>
+          {% endif %}
         </div>
       </div>
     </div>

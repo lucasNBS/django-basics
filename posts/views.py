@@ -1,4 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from .models import Post
 from .forms import PostForm
@@ -39,15 +40,22 @@ def post(request, id):
 
   return render(request, 'posts/post.html', context)
 
+@login_required(login_url='/login')
 def delete_post(request, id):
   post = get_object_or_404(Post, id=id)
+
+  if post.user != request.user:
+      return redirect('posts')
+
   post.delete()
   return redirect('posts')
 
+@login_required(login_url='/login')
 def create_post(request):
   if request.method == 'POST':
     form = PostForm(request.POST, request.FILES)
     if form.is_valid():
+      form.instance.user = request.user
       form.save()
       form = PostForm()
       return redirect('posts')
@@ -60,8 +68,12 @@ def create_post(request):
 
   return render(request, 'posts/form.html', context)
 
+@login_required(login_url='/login')
 def edit_post(request, id):
   post = get_object_or_404(Post, id=id)
+
+  if post.user != request.user:
+    return redirect('posts')
 
   if request.method == "POST":
     form = PostForm(request.POST, request.FILES, instance=post)

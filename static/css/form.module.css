@@ -6,6 +6,10 @@
   gap: 1.25rem;
 }
 
+.column {
+  flex-direction: column;
+}
+
 .image-field {
   position: relative;
   height: 500px;
