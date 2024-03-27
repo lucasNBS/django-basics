@@ -46,7 +46,7 @@ def delete_post(request, id):
 
 def create_post(request):
   if request.method == 'POST':
-    form = PostForm(request.POST)
+    form = PostForm(request.POST, request.FILES)
     if form.is_valid():
       form.save()
       form = PostForm()
@@ -64,7 +64,7 @@ def edit_post(request, id):
   post = get_object_or_404(Post, id=id)
 
   if request.method == "POST":
-    form = PostForm(request.POST, instance=post)
+    form = PostForm(request.POST, request.FILES, instance=post)
     if form.is_valid():
       form.save()
       form = PostForm(instance=post)

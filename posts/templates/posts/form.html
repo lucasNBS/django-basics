@@ -3,23 +3,30 @@
 
 {% block head %}
   <link rel="stylesheet" href="{% static 'css/form.module.css' %}">
+  <script src="{% static 'js/form.js' %}" defer></script>
 {% endblock %}
 
 {% block content %}
-  <form method="post" class="form-container">
+  <form method="post" class="form-container" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="form-field">
-      <label for="title" class="form-label">Title</label>
-      {{ form.title }}
+    <div class="image-field">
+      {{ form.image }}
+      <img src="/media/images/no-image.jpg" alt="Select a cover image" id="cover-image">
     </div>
-    <div class="form-field">
-      <label for="description" class="form-label">Description</label>
-      {{ form.description }}
+    <div class="form-fields">
+      <div class="form-field">
+        <label for="title" class="form-label">Title</label>
+        {{ form.title }}
+      </div>
+      <div class="form-field">
+        <label for="description" class="form-label">Description</label>
+        {{ form.description }}
+      </div>
+      <div class="form-field">
+        <label for="content" class="form-label">Content</label>
+        {{ form.content }}
+      </div>
+      <button type="submit" class="form-button">Send</button>
     </div>
-    <div class="form-field">
-      <label for="content" class="form-label">Content</label>
-      {{ form.content }}
-    </div>
-    <button type="submit" class="form-button">Send</button>
   </form>
 {% endblock %}
