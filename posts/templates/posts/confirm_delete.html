@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+  <link rel="stylesheet" href="{% static 'css/confirm-delete.module.css' %}">
+{% endblock %}
+
+{% block content %}
+  <form method="post" class="form-container">
+    {% csrf_token %}
+
+    <h2 class="text">Do you really want to delete?</h2>
+    <strong class="strong">{{ post.title }}</strong>
+    <button type="submit" class="button">Yes</button>
+  </form>
+{% endblock %}

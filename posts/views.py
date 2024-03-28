@@ -1,105 +1,92 @@
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
-from django.core.paginator import Paginator
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from .models import Post
 from .forms import PostForm
 
-def list_posts(request):
-  posts = Post.objects.all()
+class PostList(ListView):
+  model = Post
+  template_name = 'posts/index.html'
+  paginate_by = 2
 
-  users = []
+  def get_queryset(self):
+    query_set = super().get_queryset()
 
-  for post in posts:
-    if post.user not in users:
-      users.append(post.user)
+    search_author = self.request.GET.get('search-author')
+    search_title = self.request.GET.get('search-title')
 
-  search_title = request.GET.get("search-title")
-  search_author = request.GET.get("search-author")
+    if search_author is not None and search_author is not '':
+      query_set = query_set.filter(user__username=search_author)
+    if search_title is not None and search_title is not '':
+      query_set = query_set.filter(title__icontains=search_title)
 
-  if search_title is not None:
-    posts = posts.filter(title__icontains=search_title)
-  if not search_author == "" and not search_author is None:
-    posts = posts.filter(user__username=search_author)
+    return query_set
 
-  paginator = Paginator(posts, 2)
+  def get_context_data(self, **kwargs):
+    context = super(ListView, self).get_context_data(**kwargs)
 
-  page = request.GET.get('page')
+    users = []
 
-  if page == 0 or page is None:
-    page = 1
+    for post in self.model.objects.all():
+      if post.user not in users:
+        users.append(post.user)
 
-  if search_title is None:
-    search_title = ""
-  if search_author is None:
-    search_author = ""
+    context['users'] = users
 
-  page_obj = paginator.get_page(page)
+    search_author = self.request.GET.get('search-author')
+    search_title = self.request.GET.get('search-title')
 
-  context = {
-    'page_obj': page_obj,
-    'search_title': search_title,
-    'users': users,
-    'search_author': search_author,
-  }
+    if search_author is None:
+      search_author = ""
+    if search_title is None:
+      search_title = ""
 
-  return render(request, 'posts/index.html', context)
+    context['search_author'] = search_author
+    context['search_title'] = search_title
 
-def post(request, id):
-  post = Post.objects.get(id=id)
+    return context
 
-  context = {
-    'post': post
-  }
+class PostDetailView(DetailView):
+  model = Post
+  pk_url_kwarg = 'id'
+  template_name = 'posts/post.html'
 
-  return render(request, 'posts/post.html', context)
+class PostDelete(LoginRequiredMixin, DeleteView):
+  model = Post
+  pk_url_kwarg = 'id'
+  success_url = reverse_lazy('posts')
+  login_url = '/login'
+  template_name = 'posts/confirm_delete.html'
 
-@login_required(login_url='/login')
-def delete_post(request, id):
-  post = get_object_or_404(Post, id=id)
+  def get(self, request, *args, **kwargs):
+    post = self.get_object()
 
-  if post.user != request.user:
-      return redirect('posts')
-
-  post.delete()
-  return redirect('posts')
-
-@login_required(login_url='/login')
-def create_post(request):
-  if request.method == 'POST':
-    form = PostForm(request.POST, request.FILES)
-    if form.is_valid():
-      form.instance.user = request.user
-      form.save()
-      form = PostForm()
-      return redirect('posts')
-  else:
-    form = PostForm()
-
-  context = {
-    'form': form
-  }
-
-  return render(request, 'posts/form.html', context)
-
-@login_required(login_url='/login')
-def edit_post(request, id):
-  post = get_object_or_404(Post, id=id)
-
-  if post.user != request.user:
+    if request.user == post.__getattribute__('user'):
+      return super().get(request, *args, **kwargs)
+    
     return redirect('posts')
 
-  if request.method == "POST":
-    form = PostForm(request.POST, request.FILES, instance=post)
-    if form.is_valid():
-      form.save()
-      form = PostForm(instance=post)
-      return redirect('posts')
-  else:
-    form = PostForm(instance=post)
+class PostCreate(LoginRequiredMixin, CreateView):
+  model = Post
+  login_url = '/login'
+  template_name = 'posts/form.html'
+  form_class = PostForm
+  success_url = reverse_lazy('posts')
 
-  context = {
-    "form": form
-  }
+class PostUpdate(LoginRequiredMixin, UpdateView):
+  model = Post
+  login_url = '/login'
+  pk_url_kwarg = 'id'
+  template_name = 'posts/form.html'
+  form_class = PostForm
+  success_url = reverse_lazy('posts')
 
-  return render(request, 'posts/form.html', context)
+  def get(self, request, *args, **kwargs):
+    post = self.get_object()
+
+    if request.user == post.__getattribute__('user'):
+      return super().get(request, *args, **kwargs)
+    
+    return redirect('posts')
