@@ -29,6 +29,7 @@ body {
   max-width: 1200px;
   min-height: calc(100vh - 500px);
   margin: auto;
+  padding: 3rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
