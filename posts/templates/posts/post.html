@@ -14,7 +14,7 @@
       <div class="post-info">
         <p class="post-content">{{ post.content }}</p> 
         <div class="actions-container">
-          {% if user == post.user %}
+          {% if user == post.user or user.is_superuser %}
             <a href="{% url 'post-edit' post.id %}" class="edit">Edit</a>
           {% endif %}
         </div>

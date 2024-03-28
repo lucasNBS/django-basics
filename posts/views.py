@@ -1,5 +1,4 @@
-from django.http import HttpRequest, HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
@@ -17,9 +16,9 @@ class PostList(ListView):
     search_author = self.request.GET.get('search-author')
     search_title = self.request.GET.get('search-title')
 
-    if search_author is not None and search_author is not '':
+    if search_author != None and search_author != '':
       query_set = query_set.filter(user__username=search_author)
-    if search_title is not None and search_title is not '':
+    if search_title != None and search_title != '':
       query_set = query_set.filter(title__icontains=search_title)
 
     return query_set
@@ -63,7 +62,7 @@ class PostDelete(LoginRequiredMixin, DeleteView):
   def get(self, request, *args, **kwargs):
     post = self.get_object()
 
-    if request.user == post.__getattribute__('user'):
+    if request.user == post.__getattribute__('user') or request.user.is_superuser:
       return super().get(request, *args, **kwargs)
     
     return redirect('posts')
@@ -86,7 +85,7 @@ class PostUpdate(LoginRequiredMixin, UpdateView):
   def get(self, request, *args, **kwargs):
     post = self.get_object()
 
-    if request.user == post.__getattribute__('user'):
+    if request.user == post.__getattribute__('user') or request.user.is_superuser:
       return super().get(request, *args, **kwargs)
     
     return redirect('posts')
